@@ -5,6 +5,7 @@ using Microservice.CategoryWebAPI.Context;
 using Microservice.CategoryWebAPI.Dtos;
 using Microservice.CategoryWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 namespace Microservice.CategoryWebAPI.Modules;
 
@@ -13,14 +14,16 @@ public sealed class CategoryModule : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder group)
     {
         var versionSet = group.NewApiVersionSet()
-            .HasApiVersion(new ApiVersion(1, 0))
-            .HasApiVersion(new ApiVersion(2, 0))
+            //.HasApiVersion(new ApiVersion(1))
+            .HasDeprecatedApiVersion(new ApiVersion(1))
+            .HasApiVersion(new ApiVersion(2))
             .ReportApiVersions()
             .Build();
 
         var app = group
             .MapGroup("/v{version:apiVersion}/categories")
             .WithTags("Categories")
+            .RequireRateLimiting("fixed")
             .WithApiVersionSet(versionSet);
 
         app.MapPost(string.Empty, async (CategoryCreateDto request, ApplicationDbContext dbContext, CancellationToken cancellationToken) =>
@@ -36,20 +39,27 @@ public sealed class CategoryModule : ICarterModule
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return Results.Ok(new { Message = "(V1) Category create was successful" });
-        }).HasApiVersion(1.0);
+        }).HasApiVersion(1);
 
         app.MapPost(string.Empty, async (CategoryCreateDto request, ApplicationDbContext dbContext, CancellationToken cancellationToken) =>
         {
             //do something else...
 
             return Results.Ok(new { Message = "(V2) Category create was successful" });
-        }).HasApiVersion(2.0);
+        }).HasApiVersion(2);
 
         app.MapGet(string.Empty, async (ApplicationDbContext dbContext, CancellationToken cancellationToken) =>
         {
             var res = await dbContext.Categories.OrderBy(i => i.Name).ToListAsync(cancellationToken);
 
-            return Results.Ok(res);
-        }).HasApiVersion(1.0);
+            return Results.Ok("v1");
+        }).HasApiVersion(1);
+
+        app.MapGet(string.Empty, async (ApplicationDbContext dbContext, CancellationToken cancellationToken) =>
+        {
+            var res = await dbContext.Categories.OrderBy(i => i.Name).ToListAsync(cancellationToken);
+
+            return Results.Ok("v2");
+        }).HasApiVersion(2);
     }
 }

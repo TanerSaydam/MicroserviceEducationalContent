@@ -1,0 +1,10 @@
+GET http://localhost:5002/api/values
+
+###
+GET http://localhost:5002/api/values?api-version=2
+
+###
+GET http://localhost:5002/api/v2/values
+
+###
+GET http://localhost:5002/v1/categories

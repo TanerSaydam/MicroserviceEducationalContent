@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Carter;
 using Microservice.CategoryWebAPI.Context;
 using Microsoft.AspNetCore.RateLimiting;
@@ -7,11 +8,24 @@ using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApiVersioning();
+builder.Services.AddApiVersioning(action =>
+{
+    action.DefaultApiVersion = new ApiVersion(1);
+    action.AssumeDefaultVersionWhenUnspecified = true;
+    action.ReportApiVersions = true;
+})
+    .AddApiExplorer(options =>
+    {
+        //openapi için lazým
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    });
+
 builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("mydb"));
 builder.Services.AddHealthChecks();
 builder.Services.AddOpenApi();
 builder.Services.AddCors();
+builder.Services.AddControllers();
 builder.Services.AddRateLimiter(x =>
 {
     x.AddFixedWindowLimiter("fixed", opt =>
@@ -37,5 +51,6 @@ app.UseCors(x => x
 app.UseRateLimiter();
 app.MapCarter();
 app.MapHealthChecks("/health");
+app.MapControllers();
 
 app.Run();
