@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table, th, td {
+            width: 50%;
+            border: 1px solid;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebAPI Test</h1>
+    <button onclick="showCategory()">Category</button> | <button onclick="showProduct()">Product</button>
+    <div id="categoryDiv" style="display:none;">
+        <h3>Category</h3>
+        <div>
+            Name: <input type="text" id="categoryName" />
+            <br />
+            <button onclick="createCategory()">Save</button>
+            <br />
+            <span style="color:red" id="categoryResponse"></span>
+        </div>
+        <br />
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="productDiv" style="display:none;">
+        <h3>Product</h3>
+        <div>
+            Name: <input type="text" id="categoryName" />
+            <br />
+            <button onclick="createCategory()">Save</button>
+            <br />
+            <span style="color:red" id="categoryResponse"></span>
+        </div>
+        <br />
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTbody"></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        getallCategory();
+
+        async function createCategory() {
+            const nameEl = document.getElementById("categoryName");
+
+            const request = {
+                name: nameEl.value
+            };
+
+            const res = await fetch("http://localhost:5002/categories", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(request)
+            });
+
+            const data = await res.json();
+
+            const responseEl = document.getElementById("categoryResponse");
+            responseEl.innerText = data.message;
+            await getallCategory();
+        }
+
+        async function getallCategory() {
+            const res = await fetch("http://localhost:5002/categories").then(res => res.json());
+            const tbodyEl = document.getElementById("categoryTbody");
+            let list = "";
+            res.forEach(val => {
+                list += `<tr><td>${val.id}</td><td>${val.name}</td></tr>`;
+            });
+            tbodyEl.innerHTML = list;
+        }
+
+        function showCategory() {
+            const categoryEl = document.getElementById("categoryDiv");
+            categoryEl.style.display = "block";
+
+            const productEl = document.getElementById("productDiv");
+            productEl.style.display = "none";
+        }
+
+        function showProduct() {
+            const productEl = document.getElementById("productDiv");
+            productEl.style.display = "block";
+
+            const categoryEl = document.getElementById("categoryDiv");
+            categoryEl.style.display = "none";
+        }
+    </script>
+</body>
+</html>

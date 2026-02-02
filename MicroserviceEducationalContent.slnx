@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="index.html" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Microservice.CategoryWebAPI/Microservice.CategoryWebAPI.csproj" />
+  <Project Path="Microservice.HealthCheck.ConsoleApp/Microservice.HealthCheck.ConsoleApp.csproj" />
+  <Project Path="Microservice.ProductWebAPI/Microservice.ProductWebAPI.csproj" />
+</Solution>

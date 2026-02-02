@@ -1,0 +1,104 @@
+﻿# Microservice Eğitim İçeriği
+
+- [x] Architectural patterns
+- [x] Microservice nedir?
+- [x] Database per Service & Data Ownership
+- [x] Category WebApi oluşturalım
+- [x] Category model için Create/Read işlemleri
+- [x] API Versioning
+- [x] OpenAPI ve Scalar ile endpoint dokümantasyonu
+- [x] Health Check ile uygulama sağlık kontrolü
+- [x] Frontend projesi oluşturup Category listesini görüntüleme
+- [x] CORS policy
+- [ ] Product WebApi oluşturalım
+- [ ] Product Create/Read işlemleri
+- [ ] Response Compression
+- [ ] Service Discovery Pattern (HashiCorp Consul)
+- [ ] Resilience Pattern (Polly)
+- [ ] Frontend’de Product listesini görüntüleme
+- [ ] Docker image oluşturma
+- [ ] Docker compose ile projeleri ayağa kaldıralım
+- [ ] Gateway nedir?
+- [ ] Ocelot nedir?
+- [ ] Gateway projesi oluşturup Ocelot yapısını kuralım
+  - [ ] QoS / Retry / Circuit Breaker
+  - [ ] LoadBalance
+  - [ ] RateLimit
+  - [ ] Service Discovery
+  - [ ] Authentication
+  - [ ] Authorization
+- [ ] YARP ile Gateway
+  - [ ] LoadBalance
+  - [ ] RateLimit
+  - [ ] Authentication
+  - [ ] Authorization
+  - [ ] HealthCheck
+- [ ] Ocelot vs YARP
+- [ ] Order WebAPI oluşturalım ve Create işlemi yapalım
+- [ ] Payment WebAPI oluşturalım ve Create metodu yazalım
+- [ ] Idempotency
+- [ ] Transaction sorunu oluşturalım
+- [ ] Sync (HTTP/gRPC) vs Async (Message Broker) Communication
+- [ ] Saga Pattern
+- [ ] Observability (with OpenTelemetry and Jaeger)
+- [ ] Aspire
+
+---
+
+## Consul Docker komutu (Service Discovery)
+
+```powershell
+docker run -d --name consul -p 8500:8500 hashicorp/consul:latest
+```
+
+## Polly kütüphanesi BackoffType
+
+```csharp
+//🧩 DelayBackoffType Enum Türleri
+//Constant    Her denemede sabit süre bekler.    Delay = 5s → 5s, 5s, 5s//Constant    Her denemede sabit süre bekler.    Delay = 5s → 5s, 5s, 5s
+//Linear    Her denemede gecikme lineer (doğrusal) artar.    Delay = 5s → 5s, 10s, 15s//Linear    Her denemede gecikme lineer (doğrusal) artar.    Delay = 5s → 5s, 10s, 15s
+//Exponential    Her denemede gecikme katlanarak (üstel) artar.    Delay = 5s → 5s, 10s, 20s, 40s//Exponential    Her denemede gecikme katlanarak (üstel) artar.    Delay = 5s → 5s, 10s, 20s, 40s
+```
+
+---
+
+## Docker CLI komutları
+
+- Network komutları
+
+```powershell
+#docker network listele
+docker network ls 
+
+#kullanılmayan networkleri sil
+docker network prune 
+
+#yeni network oluştur
+docker network create network_name
+```
+
+- Image ve container komutları
+
+```powershell
+#image dönüştürme - eğer docker file olan ana dizinde ise build komutu
+docker build -t image_name . 
+
+#image dönüştürme - eğer docker file alt dizinde ise
+docker build -t image_name -f Microservice.ProductWebAPI/Dockerfile . 
+
+#container oluşturma
+docker run -d --name container_name -p 6001:8080 image_adi
+
+#networke bağlı container oluşturma
+docker run -d --network eticaret --name product -p 6001:8080 productapi 
+```
+
+- docker compose build
+
+```powershell
+#eğer ilk oluşturuyorsak
+docker compose up -d
+
+#eğer tekrar rebuild yapacaksak
+docker compose up -d --build
+```
