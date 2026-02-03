@@ -18,11 +18,9 @@ Content-Type: application/json
 GET http://localhost:5002/api/products
 
 ###
-POST http://localhost:5002/api/orders/create-order
+POST http://localhost:5002/api/orders/create-order-async
 Content-Type: application/json
-Headers: {
-  "idempotency-key":1
-}
+idempotency-key: 1
 
 {
   "productId": "ed6765d1-cd7e-4801-8b9f-840def17bde9"
@@ -30,3 +28,12 @@ Headers: {
 
 ###
 GET http://localhost:5002/api/orders/get-all
+
+###
+POST http://localhost:5046/create-order-async
+Content-Type: application/json
+idempotency-key: 1
+
+{
+  "productId": "ed6765d1-cd7e-4801-8b9f-840def17bde9"
+}

@@ -8,4 +8,5 @@ public sealed class Order
     }
     public Guid Id { get; set; }
     public Guid ProductId { get; set; }
+    public bool IsCompleted { get; set; }
 }

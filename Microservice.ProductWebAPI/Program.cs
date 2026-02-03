@@ -1,10 +1,10 @@
 ﻿using Carter;
+using Microservice.ProductWebAPI;
 using Microservice.ProductWebAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Retry;
 using Scalar.AspNetCore;
-using Steeltoe.Discovery.Consul;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +17,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddCarter();
 builder.Services.AddHttpClient();
 builder.Services.AddHealthChecks();
-builder.Services.AddConsulDiscoveryClient();
+//builder.Services.AddConsulDiscoveryClient();
 builder.Services.AddResponseCompression(x => x.EnableForHttps = true);
+builder.Services.AddHostedService<OrderQueueBackgroundService>();
 builder.Services.AddResiliencePipeline("http", configure =>
 {
     configure.AddPipeline(new ResiliencePipelineBuilder()

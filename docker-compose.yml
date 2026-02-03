@@ -5,6 +5,13 @@ services:
      - 8500:8500
     container_name: consul
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+     - 5672:5672
+     - 15672:15672
+    container_name: rabbitmq
+
   ocelot:
    build:
     dockerfile: ./Microservice.OcelotGateway/Dockerfile

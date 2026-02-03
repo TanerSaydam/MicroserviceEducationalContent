@@ -92,6 +92,28 @@ https://learn.microsoft.com/tr-tr/aspnet/core/fundamentals/servers/yarp/getting-
 
 ---
 
+## RabbitMQ
+
+```dash
+https://www.rabbitmq.com/tutorials/tutorial-one-dotnet
+```
+
+```dash
+docker run -d --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+```
+
+---
+
+## Saga Pattern
+
+Saga Pattern iki yaklaşımdan oluşur:
+
+**Choreography-based Saga**: Servisler event’ler üzerinden birbirleriyle doğrudan haberleşir, merkezi bir yönetici yoktur. Her servis kendi adımını bilir ve gerektiğinde telafi (compensation) işlemini kendisi yapar.
+
+**Orchestration-based Saga**: Süreci merkezi bir orchestrator yönetir. Servislere hangi adımı ne zaman çalıştıracağını söyler, hata durumunda telafi adımlarını koordine eder.
+
+---
+
 ## Docker CLI komutları
 
 - Network komutları

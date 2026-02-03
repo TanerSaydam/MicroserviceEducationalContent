@@ -98,5 +98,23 @@ public sealed class ProductModule : ICarterModule
 
         //    return new { Message = "Product seed data was succesful" };
         //});
+
+        app.MapPut("decrease-stock", async (
+            ProductUpdateStockDto request,
+            ApplicationDbContext dbContext,
+            CancellationToken cancellationToken) =>
+        {
+            Product? product = await dbContext.Products.FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+            if (product is null)
+            {
+                return Results.BadRequest("Product didn't find");
+            }
+
+            product.Stock -= request.Quantity;
+            dbContext.Update(product);
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return Results.Ok("Product update was successful");
+        });
     }
 }
