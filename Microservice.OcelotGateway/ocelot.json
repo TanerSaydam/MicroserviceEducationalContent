@@ -2,17 +2,26 @@
   "Routes": [
     {
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "UpstreamPathTemplate": "/api/categories/{catchAll}",
+      "DownstreamPathTemplate": "/categories/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [],
+      "RateLimitOptions": {
+        "ClientIdHeader": "ClientId",
+        "Limit": 100,
+        "Period": "1s"
+      },
+      "ServiceName": "CategoryWebAPI"
+    },
+    {
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "UpstreamPathTemplate": "/api/products/{catchAll}",
-      "DownstreamPathTemplate": "/{catchAll}",
+      "DownstreamPathTemplate": "/products/{catchAll}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5004
-        }//,
         //{
-        //  "Host": "product2",
-        //  "Port": 8080
+        //  "Host": "localhost",
+        //  "Port": 5004
         //}
       ],
       "RateLimitOptions": {
@@ -23,7 +32,7 @@
       "ServiceName": "ProductWebAPI",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
-      }      
+      }
     }
   ],
   "GlobalConfiguration": {
@@ -33,7 +42,7 @@
     },
     "ServiceDiscoveryProvider": {
       "Scheme": "http",
-      "Host": "localhost",
+      "Host": "consul",
       "Port": 8500,
       "Type": "Consul"
     }
