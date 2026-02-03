@@ -1,0 +1,29 @@
+POST http://localhost:5003/categories
+Content-Type: application/json
+
+{
+  "name": "Kategori 1"
+}
+
+###
+GET http://localhost:5003/categories
+
+###
+POST http://localhost:5004/
+Content-Type: application/json
+
+{
+  "categoryId": "019c2075-97e2-7bc4-80f5-aaa77478b070",
+  "name": "Ürün 1"
+}
+
+###
+GET http://localhost:5004/products
+
+###
+POST http://localhost:5004/products/seed-data
+Content-Type: application/json
+
+
+###
+GET http://localhost:5001/api/products

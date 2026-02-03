@@ -4,6 +4,7 @@ using Microservice.CategoryWebAPI.Context;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using Steeltoe.Discovery.Consul;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,7 @@ builder.Services.AddRateLimiter(x =>
     });
 });
 builder.Services.AddCarter();
+builder.Services.AddConsulDiscoveryClient();
 
 var app = builder.Build();
 

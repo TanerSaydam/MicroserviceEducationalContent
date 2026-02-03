@@ -1,9 +1,12 @@
 <Solution>
   <Folder Name="/Solution Items/">
-    <File Path="index.html" />
+    <File Path="docker-compose.yml" />
+    <File Path="DockerFile.md" />
     <File Path="README.md" />
+    <File Path="WebAPI.http" />
   </Folder>
   <Project Path="Microservice.CategoryWebAPI/Microservice.CategoryWebAPI.csproj" />
   <Project Path="Microservice.HealthCheck.ConsoleApp/Microservice.HealthCheck.ConsoleApp.csproj" />
+  <Project Path="Microservice.OcelotGateway/Microservice.OcelotGateway.csproj" Id="bdadb4b2-c81e-4426-adbc-b2caf94cf66f" />
   <Project Path="Microservice.ProductWebAPI/Microservice.ProductWebAPI.csproj" />
 </Solution>

@@ -8,22 +8,20 @@
 - [x] API Versioning
 - [x] OpenAPI ve Scalar ile endpoint dokümantasyonu
 - [x] Health Check ile uygulama sağlık kontrolü
-- [x] Frontend projesi oluşturup Category listesini görüntüleme
 - [x] CORS policy
-- [ ] Product WebApi oluşturalım
-- [ ] Product Create/Read işlemleri
-- [ ] Response Compression
-- [ ] Service Discovery Pattern (HashiCorp Consul)
-- [ ] Resilience Pattern (Polly)
-- [ ] Frontend’de Product listesini görüntüleme
-- [ ] Docker image oluşturma
-- [ ] Docker compose ile projeleri ayağa kaldıralım
-- [ ] Gateway nedir?
-- [ ] Ocelot nedir?
-- [ ] Gateway projesi oluşturup Ocelot yapısını kuralım
+- [x] Product WebApi oluşturalım
+- [x] Product Create/Read işlemleri
+- [x] Response Compression
+- [x] Service Discovery Pattern (HashiCorp Consul)
+- [x] Resilience Pattern (Polly)
+- [x] Docker image oluşturma
+- [x] Docker compose ile projeleri ayağa kaldıralım
+- [x] Gateway nedir?
+- [x] Ocelot nedir?
+- [x] Gateway projesi oluşturup Ocelot yapısını kuralım
+  - [x] RateLimit
+  - [x] LoadBalance
   - [ ] QoS / Retry / Circuit Breaker
-  - [ ] LoadBalance
-  - [ ] RateLimit
   - [ ] Service Discovery
   - [ ] Authentication
   - [ ] Authorization
@@ -45,10 +43,18 @@
 
 ---
 
-## Consul Docker komutu (Service Discovery)
+## Consul
+
+### Docker komutu (Service Discovery)
 
 ```powershell
 docker run -d --name consul -p 8500:8500 hashicorp/consul:latest
+```
+
+### NuGet Package
+
+```dash
+Steeltoe.Discovery.Consul
 ```
 
 ## Polly kütüphanesi BackoffType
@@ -58,6 +64,14 @@ docker run -d --name consul -p 8500:8500 hashicorp/consul:latest
 //Constant    Her denemede sabit süre bekler.    Delay = 5s → 5s, 5s, 5s//Constant    Her denemede sabit süre bekler.    Delay = 5s → 5s, 5s, 5s
 //Linear    Her denemede gecikme lineer (doğrusal) artar.    Delay = 5s → 5s, 10s, 15s//Linear    Her denemede gecikme lineer (doğrusal) artar.    Delay = 5s → 5s, 10s, 15s
 //Exponential    Her denemede gecikme katlanarak (üstel) artar.    Delay = 5s → 5s, 10s, 20s, 40s//Exponential    Her denemede gecikme katlanarak (üstel) artar.    Delay = 5s → 5s, 10s, 20s, 40s
+```
+
+---
+
+## Ocelot
+
+```dash
+https://ocelot.readthedocs.io/
 ```
 
 ---
