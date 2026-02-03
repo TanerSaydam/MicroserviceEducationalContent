@@ -1,4 +1,4 @@
-using Carter;
+﻿using Carter;
 using Microservice.ProductWebAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using Polly;
@@ -31,6 +31,7 @@ builder.Services.AddResiliencePipeline("http", configure =>
         );
 });
 var app = builder.Build();
+
 
 app.MapOpenApi();
 app.MapScalarApiReference();
