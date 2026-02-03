@@ -54,37 +54,49 @@ public sealed class ProductModule : ICarterModule
             return products;
         });
 
+        app.MapGet("get-all", async (
+            ApplicationDbContext dbContext,
+            CancellationToken cancellationToken) =>
+        {
+            var products = await dbContext.Products
+            .OrderBy(p => p.Name)
+            .ToListAsync(cancellationToken);
+
+            return products;
+        });
+
         app.MapPost(string.Empty, async (
             ProductCreateDto request,
             ApplicationDbContext dbContext,
             CancellationToken cancellationToken) =>
         {
             Product product = request.Adapt<Product>();
+            product.Id = Guid.Parse("ed6765d1-cd7e-4801-8b9f-840def17bde9");
             dbContext.Add(product);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return new { Message = "Product create was succesful" };
         });
 
-        app.MapPost("seed-data", async (
-            ApplicationDbContext dbContext,
-            CancellationToken cancellationToken) =>
-        {
-            List<Product> products = new();
-            for (int i = 0; i < 1000; i++)
-            {
-                Product product = new()
-                {
-                    Name = "Product " + i.ToString(),
-                    CategoryId = new Guid("019c2075-97e2-7bc4-80f5-aaa77478b070")
-                };
-                products.Add(product);
-            }
+        //app.MapPost("seed-data", async (
+        //    ApplicationDbContext dbContext,
+        //    CancellationToken cancellationToken) =>
+        //{
+        //    List<Product> products = new();
+        //    for (int i = 0; i < 1000; i++)
+        //    {
+        //        Product product = new()
+        //        {
+        //            Name = "Product " + i.ToString(),
+        //            CategoryId = new Guid("019c2075-97e2-7bc4-80f5-aaa77478b070")
+        //        };
+        //        products.Add(product);
+        //    }
 
-            dbContext.AddRange(products);
-            await dbContext.SaveChangesAsync(cancellationToken);
+        //    dbContext.AddRange(products);
+        //    await dbContext.SaveChangesAsync(cancellationToken);
 
-            return new { Message = "Product seed data was succesful" };
-        });
+        //    return new { Message = "Product seed data was succesful" };
+        //});
     }
 }

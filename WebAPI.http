@@ -1,4 +1,4 @@
-POST http://localhost:5003/categories
+POST http://localhost:5002/api/categories
 Content-Type: application/json
 
 {
@@ -6,24 +6,27 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5003/categories
-
-###
-POST http://localhost:5004/
+POST http://localhost:5002/api/products
 Content-Type: application/json
 
 {
-  "categoryId": "019c2075-97e2-7bc4-80f5-aaa77478b070",
-  "name": "Ürün 1"
+  "name":"Test",
+  "categoryId": "019c2075-97e2-7bc4-80f5-aaa77478b070"
 }
 
 ###
-GET http://localhost:5004/products
+GET http://localhost:5002/api/products
 
 ###
-POST http://localhost:5004/products/seed-data
+POST http://localhost:5002/api/orders/create-order
 Content-Type: application/json
+Headers: {
+  "idempotency-key":1
+}
 
+{
+  "productId": "ed6765d1-cd7e-4801-8b9f-840def17bde9"
+}
 
 ###
-GET http://localhost:5001/api/products
+GET http://localhost:5002/api/orders/get-all

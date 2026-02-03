@@ -31,9 +31,9 @@
   - [x] Authorization
   - [x] HealthCheck
 - [x] Ocelot vs YARP
-- [ ] Order WebAPI oluşturalım ve Create işlemi yapalım
-- [ ] Payment WebAPI oluşturalım ve Create metodu yazalım
-- [ ] Idempotency
+- [x] Order WebAPI oluşturalım ve Create işlemi yapalım
+- [x] Idempotency
+- [x] Payment WebAPI oluşturalım ve Create metodu yazalım
 - [ ] Transaction sorunu oluşturalım
 - [ ] Sync (HTTP/gRPC) vs Async (Message Broker) Communication
 - [ ] Saga Pattern
