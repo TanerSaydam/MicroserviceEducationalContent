@@ -16,6 +16,7 @@ builder.Services.AddCors();
 builder.Services.AddOpenApi();
 builder.Services.AddCarter();
 builder.Services.AddHttpClient();
+builder.Services.AddHealthChecks();
 builder.Services.AddConsulDiscoveryClient();
 builder.Services.AddResponseCompression(x => x.EnableForHttps = true);
 builder.Services.AddResiliencePipeline("http", configure =>
@@ -44,6 +45,8 @@ app.UseCors(x => x
 app.MapCarter();
 
 app.MapGet(string.Empty, () => "Hello world");
+
+app.MapHealthChecks("health");
 
 app.UseResponseCompression();
 

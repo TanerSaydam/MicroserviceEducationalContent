@@ -24,13 +24,13 @@
   - [x] Service Discovery  
   - [x] Authentication
   - [x] Authorization
-- [ ] YARP ile Gateway
-  - [ ] LoadBalance
-  - [ ] RateLimit
-  - [ ] Authentication
-  - [ ] Authorization
-  - [ ] HealthCheck
-- [ ] Ocelot vs YARP
+- [x] YARP ile Gateway
+  - [x] LoadBalance
+  - [x] RateLimit
+  - [x] Authentication
+  - [x] Authorization
+  - [x] HealthCheck
+- [x] Ocelot vs YARP
 - [ ] Order WebAPI oluşturalım ve Create işlemi yapalım
 - [ ] Payment WebAPI oluşturalım ve Create metodu yazalım
 - [ ] Idempotency
@@ -70,7 +70,24 @@ Steeltoe.Discovery.Consul
 ## Ocelot
 
 ```dash
+Ocelot
+Ocelot.Provider.Consul
+```
+
+```dash
 https://ocelot.readthedocs.io/
+```
+
+---
+
+## YARP
+
+```dash
+Yarp.ReverseProxy
+```
+
+```dash
+https://learn.microsoft.com/tr-tr/aspnet/core/fundamentals/servers/yarp/getting-started?view=aspnetcore-10.0
 ```
 
 ---

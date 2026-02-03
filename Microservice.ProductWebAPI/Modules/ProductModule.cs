@@ -32,16 +32,19 @@ public sealed class ProductModule : ICarterModule
             })
             .ToListAsync(cancellationToken);
 
-            var services = await discoveryClient.GetInstancesAsync("CategoryWebAPI", cancellationToken);
-            var service = services.FirstOrDefault();
-            Uri uri = service?.Uri ?? new Uri("");
-            string categoryEndpoint = uri + "categories";
+            //var services = await discoveryClient.GetInstancesAsync("CategoryWebAPI", cancellationToken);
+            //var service = services.FirstOrDefault();
+            //Uri uri = service?.Uri ?? new Uri("");
+            //string categoryEndpoint = uri + "categories";           
 
-            var pipeline = pipelineProvider.GetPipeline("http");
-            var categories = await pipeline.ExecuteAsync(async st =>
-            {
-                return await httpClient.GetFromJsonAsync<List<CategoryDto>>(categoryEndpoint, cancellationToken);
-            });
+            //var pipeline = pipelineProvider.GetPipeline("http");
+            //var categories = await pipeline.ExecuteAsync(async st =>
+            //{
+            //    return await httpClient.GetFromJsonAsync<List<CategoryDto>>(categoryEndpoint, cancellationToken);
+            //});
+
+            string categoryEndpoint = "http://category:8080/categories";
+            var categories = await httpClient.GetFromJsonAsync<List<CategoryDto>>(categoryEndpoint, cancellationToken);
 
             foreach (var product in products)
             {

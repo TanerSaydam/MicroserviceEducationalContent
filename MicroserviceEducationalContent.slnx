@@ -10,4 +10,5 @@
   <Project Path="Microservice.HealthCheck.ConsoleApp/Microservice.HealthCheck.ConsoleApp.csproj" />
   <Project Path="Microservice.OcelotGateway/Microservice.OcelotGateway.csproj" Id="bdadb4b2-c81e-4426-adbc-b2caf94cf66f" />
   <Project Path="Microservice.ProductWebAPI/Microservice.ProductWebAPI.csproj" />
+  <Project Path="Microservice.YarpGateway/Microservice.YarpGateway.csproj" Id="fc38e442-4f2c-4252-a279-dc46f6a6de19" />
 </Solution>

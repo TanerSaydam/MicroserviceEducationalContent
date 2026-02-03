@@ -12,6 +12,13 @@ services:
     - 5001:8080
    container_name: ocelot-gateway
 
+  yarp:
+   build:
+    dockerfile: ./Microservice.YarpGateway/Dockerfile
+   ports:
+    - 5002:8080
+   container_name: yarp-gateway
+
   auth:
    build:
     dockerfile: ./Microservice.AuthWebAPI/Dockerfile
