@@ -4,15 +4,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>e1b9b132-7c6c-4910-9253-170ba3d74989</UserSecretsId>
+    <UserSecretsId>e8e1b47d-b98b-46aa-a3ca-a575c00d85f8</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
-    <PackageReference Include="Ocelot" Version="24.1.0" />
-    <PackageReference Include="Ocelot.Provider.Consul" Version="24.1.0" />
   </ItemGroup>
 
 </Project>

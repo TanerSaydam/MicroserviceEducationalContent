@@ -21,10 +21,9 @@
 - [x] Gateway projesi oluşturup Ocelot yapısını kuralım
   - [x] RateLimit
   - [x] LoadBalance
-  - [x] Service Discovery
-  - [ ] QoS / Retry / Circuit Breaker  
-  - [ ] Authentication
-  - [ ] Authorization
+  - [x] Service Discovery  
+  - [x] Authentication
+  - [x] Authorization
 - [ ] YARP ile Gateway
   - [ ] LoadBalance
   - [ ] RateLimit

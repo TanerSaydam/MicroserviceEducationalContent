@@ -5,6 +5,7 @@
     <File Path="README.md" />
     <File Path="WebAPI.http" />
   </Folder>
+  <Project Path="Microservice.AuthWebAPI/Microservice.AuthWebAPI.csproj" Id="d746b491-b6ae-4e4e-900f-cf3d82ce6204" />
   <Project Path="Microservice.CategoryWebAPI/Microservice.CategoryWebAPI.csproj" />
   <Project Path="Microservice.HealthCheck.ConsoleApp/Microservice.HealthCheck.ConsoleApp.csproj" />
   <Project Path="Microservice.OcelotGateway/Microservice.OcelotGateway.csproj" Id="bdadb4b2-c81e-4426-adbc-b2caf94cf66f" />
