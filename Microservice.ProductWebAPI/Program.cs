@@ -1,6 +1,8 @@
 ﻿using Carter;
-using Microservice.ProductWebAPI;
+using MassTransit;
+using Microservice.ProductWebAPI.Consumers;
 using Microservice.ProductWebAPI.Context;
+using Microservice.ProductWebAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Retry;
@@ -18,8 +20,8 @@ builder.Services.AddCarter();
 builder.Services.AddHttpClient();
 builder.Services.AddHealthChecks();
 //builder.Services.AddConsulDiscoveryClient();
+builder.Services.AddTransient<ProductService>();
 builder.Services.AddResponseCompression(x => x.EnableForHttps = true);
-builder.Services.AddHostedService<OrderQueueBackgroundService>();
 builder.Services.AddResiliencePipeline("http", configure =>
 {
     configure.AddPipeline(new ResiliencePipelineBuilder()
@@ -32,6 +34,21 @@ builder.Services.AddResiliencePipeline("http", configure =>
         .Build()
         );
 });
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<OrderConsumer>();
+
+    x.UsingRabbitMq((context, cfr) =>
+    {
+        cfr.Host("localhost", "/", h => { });
+        cfr.ReceiveEndpoint("product-decrease", e =>
+        {
+            e.ConfigureConsumer<OrderConsumer>(context);
+        });
+    });
+});
+
 var app = builder.Build();
 
 
@@ -44,8 +61,6 @@ app.UseCors(x => x
 .AllowAnyMethod());
 
 app.MapCarter();
-
-app.MapGet(string.Empty, () => "Hello world");
 
 app.MapHealthChecks("health");
 

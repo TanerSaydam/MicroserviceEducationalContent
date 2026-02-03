@@ -3,8 +3,9 @@ using Carter;
 using Microservice.CategoryWebAPI.Context;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
-using Steeltoe.Discovery.Consul;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,7 +39,17 @@ builder.Services.AddRateLimiter(x =>
     });
 });
 builder.Services.AddCarter();
-builder.Services.AddConsulDiscoveryClient();
+//builder.Services.AddConsulDiscoveryClient();
+
+builder.Services.AddOpenTelemetry().WithTracing(cfr =>
+{
+    cfr
+    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("CategoryWebAPI"))
+    .AddAspNetCoreInstrumentation()
+    .AddHttpClientInstrumentation()
+    .AddConsoleExporter()
+    .AddOtlpExporter();
+});
 
 var app = builder.Build();
 
@@ -49,6 +60,13 @@ app.UseCors(x => x
 .AllowAnyHeader()
 .AllowAnyOrigin()
 .AllowAnyMethod());
+
+app.MapGet(string.Empty, async () =>
+{
+    HttpClient httpClient = new();
+    await httpClient.GetAsync("https://jsonplaceholder.typicode.com/todos");
+    return "Hello World";
+});
 
 app.UseRateLimiter();
 app.MapCarter();

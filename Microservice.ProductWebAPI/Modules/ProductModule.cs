@@ -3,9 +3,8 @@ using Mapster;
 using Microservice.ProductWebAPI.Context;
 using Microservice.ProductWebAPI.Dtos;
 using Microservice.ProductWebAPI.Models;
+using Microservice.ProductWebAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using Polly.Registry;
-using Steeltoe.Common.Discovery;
 
 namespace Microservice.ProductWebAPI.Modules;
 
@@ -18,8 +17,8 @@ public sealed class ProductModule : ICarterModule
         app.MapGet(string.Empty, async (
             HttpClient httpClient,
             ApplicationDbContext dbContext,
-            IDiscoveryClient discoveryClient,
-            ResiliencePipelineProvider<string> pipelineProvider,
+            //IDiscoveryClient discoveryClient,
+            //ResiliencePipelineProvider<string> pipelineProvider,
             CancellationToken cancellationToken) =>
         {
             var products = await dbContext.Products
@@ -101,18 +100,14 @@ public sealed class ProductModule : ICarterModule
 
         app.MapPut("decrease-stock", async (
             ProductUpdateStockDto request,
-            ApplicationDbContext dbContext,
+            ProductService productService,
             CancellationToken cancellationToken) =>
         {
-            Product? product = await dbContext.Products.FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
-            if (product is null)
+            var res = await productService.DecreaseStockAsync(request, cancellationToken);
+            if (!res)
             {
                 return Results.BadRequest("Product didn't find");
             }
-
-            product.Stock -= request.Quantity;
-            dbContext.Update(product);
-            await dbContext.SaveChangesAsync(cancellationToken);
 
             return Results.Ok("Product update was successful");
         });

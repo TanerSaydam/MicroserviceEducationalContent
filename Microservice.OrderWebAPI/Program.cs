@@ -1,7 +1,10 @@
-using Microservice.OrderWebAPI;
+using MassTransit;
+using Microservice.OrderWebAPI.Consumers;
 using Microservice.OrderWebAPI.Context;
 using Microservice.OrderWebAPI.Dtos;
+using Microservice.OrderWebAPI.Enums;
 using Microservice.OrderWebAPI.Models;
+using Microservice.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +15,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {
     opt.UseInMemoryDatabase("MyDb");
 });
-builder.Services.AddTransient<RabbitMqQueue>();
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<ProductDecreaseConsumer>();
+    x.UsingRabbitMq((context, cfr) =>
+    {
+        cfr.Host("localhost", "/", h => { });
+        cfr.ReceiveEndpoint("change-order-status", e =>
+        {
+            e.ConfigureConsumer<ProductDecreaseConsumer>(context);
+        });
+    });
+});
 
 var app = builder.Build();
 
@@ -67,7 +81,7 @@ app.MapPost("/create-order-async", async (
     [FromHeader(Name = "idempotency-key")] int idempotencyKey,
     ApplicationDbContext dbContext,
     HttpClient httpClient,
-    RabbitMqQueue queue
+    IPublishEndpoint publishEndpoint
     ) =>
 {
     var isHaveIdempotency = await dbContext.Idempotencies.AnyAsync(i => i.Key == idempotencyKey);
@@ -84,12 +98,11 @@ app.MapPost("/create-order-async", async (
     //}
     #endregion   
 
-    await queue.SendAsync(request);
-
     #region Create Order
     var order = new Order()
     {
         ProductId = request.ProductId,
+        Status = OrderStatusEnum.Pending
     };
     dbContext.Orders.Add(order);
 
@@ -102,6 +115,9 @@ app.MapPost("/create-order-async", async (
     await dbContext.SaveChangesAsync();
     #endregion
 
+    var message = new CreateOrderMessage(order.Id, order.ProductId, request.Quantity);
+    await publishEndpoint.Publish(message);
+
     return Results.Ok(new { Message = "Order create" });
 });
 #endregion
@@ -112,14 +128,15 @@ app.MapGet("/get-all", async (ApplicationDbContext dbContext, HttpClient httpCli
     {
         Id = s.Id,
         ProductId = s.ProductId,
+        Status = s.Status.ToString()
     }).ToListAsync();
 
-    var products = await httpClient.GetFromJsonAsync<List<ProductDto>>("http://product1:8080/products/get-all");
+    var products = await httpClient.GetFromJsonAsync<List<ProductDto>>("http://localhost:5004/products/get-all");
 
     foreach (var order in orders)
     {
-        var productName = products!.First(p => p.Id == order.ProductId).Name;
-        order.ProductName = productName;
+        //var productName = products!.First(p => p.Id == order.ProductId).Name;
+        //order.ProductName = productName;
     }
 
     return Results.Ok(orders);

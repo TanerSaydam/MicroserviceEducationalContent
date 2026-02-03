@@ -1,4 +1,6 @@
-﻿namespace Microservice.OrderWebAPI.Models;
+﻿using Microservice.OrderWebAPI.Enums;
+
+namespace Microservice.OrderWebAPI.Models;
 
 public sealed class Order
 {
@@ -8,5 +10,5 @@ public sealed class Order
     }
     public Guid Id { get; set; }
     public Guid ProductId { get; set; }
-    public bool IsCompleted { get; set; }
+    public OrderStatusEnum Status { get; set; }
 }

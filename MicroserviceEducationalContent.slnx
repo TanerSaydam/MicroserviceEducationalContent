@@ -12,5 +12,6 @@
   <Project Path="Microservice.OrderWebAPI/Microservice.OrderWebAPI.csproj" Id="60f04ea9-2451-4cbb-a90c-857b6a764035" />
   <Project Path="Microservice.PaymentWebAPI/Microservice.PaymentWebAPI.csproj" Id="b89b0f8c-d0c3-48a3-89a8-044cac1402ad" />
   <Project Path="Microservice.ProductWebAPI/Microservice.ProductWebAPI.csproj" />
+  <Project Path="Microservice.Shared/Microservice.Shared.csproj" Id="93673d88-7b2d-43ba-8cdb-f92ee41b8905" />
   <Project Path="Microservice.YarpGateway/Microservice.YarpGateway.csproj" Id="fc38e442-4f2c-4252-a279-dc46f6a6de19" />
 </Solution>

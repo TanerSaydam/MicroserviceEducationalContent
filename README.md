@@ -34,11 +34,11 @@
 - [x] Order WebAPI oluşturalım ve Create işlemi yapalım
 - [x] Idempotency
 - [x] Payment WebAPI oluşturalım ve Create metodu yazalım
-- [ ] Transaction sorunu oluşturalım
-- [ ] Sync (HTTP/gRPC) vs Async (Message Broker) Communication
-- [ ] Saga Pattern
-- [ ] Observability (with OpenTelemetry and Jaeger)
-- [ ] Aspire
+- [x] Transaction
+- [x] Sync (HTTP/gRPC) vs Async (Message Broker) Communication
+- [x] Saga Pattern
+- [x] Observability (with OpenTelemetry and Jaeger)
+- [x] Aspire
 
 ---
 
@@ -111,6 +111,22 @@ Saga Pattern iki yaklaşımdan oluşur:
 **Choreography-based Saga**: Servisler event’ler üzerinden birbirleriyle doğrudan haberleşir, merkezi bir yönetici yoktur. Her servis kendi adımını bilir ve gerektiğinde telafi (compensation) işlemini kendisi yapar.
 
 **Orchestration-based Saga**: Süreci merkezi bir orchestrator yönetir. Servislere hangi adımı ne zaman çalıştıracağını söyler, hata durumunda telafi adımlarını koordine eder.
+
+---
+
+## Open Telemetry
+
+```dash
+OpenTelemetry.Exporter.Console
+OpenTelemetry.Exporter.OpenTelemetryProtocol
+OpenTelemetry.Extensions.Hosting
+OpenTelemetry.Instrumentation.AspNetCore
+OpenTelemetry.Instrumentation.Http
+```
+
+```dash
+docker run -d --name jaeger -p 16686:16686 -p 4317:4317 -p 4318:4318 cr.jaegertracing.io/jaegertracing/jaeger:2.11.0
+```
 
 ---
 
